@@ -20,18 +20,30 @@ border-radius: 100px;
   }
 `;
 const Box = styled.div`
+  display: flex;
   height: 200px;
   width: 200px;
   background-color: powderblue;
   animation: ${rotation} 2s linear infinite;
-  text-align: center;
-  line-height: 200px;
+  justify-content: center;
+  align-items: center;
+  span {
+    font-size: 20px;
+    &:hover {
+      color: red;
+    }
+    &:active {
+      opacity: 0.5;
+    }
+  }
 `;
 
 function App() {
   return (
     <Father>
-      <Box>@ ~ rotation ~ @</Box>
+      <Box>
+        <span>@ ~ rotation ~ @</span>
+      </Box>
     </Father>
   );
 }
