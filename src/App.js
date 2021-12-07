@@ -11,10 +11,20 @@ const Btn = styled.button`
   border-radius: 15px;
 `;
 
+const Input = styled.input.attrs({ required: true, minLength: 10 })`
+  background-color: tomato;
+`;
+
 function App() {
   return (
     <Father>
       <Btn>Log in</Btn>
+      <Btn as="a" href="/">
+        Log in
+      </Btn>
+      <Input />
+      <Input />
+      <Input />
     </Father>
   );
 }
