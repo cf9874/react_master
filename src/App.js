@@ -14,9 +14,16 @@ border-radius: 100px;
     border-radius: 0px;
   }
 `;
-const Father = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: ${(prop) => prop.theme.backgroundColor};
+  h1 {
+    color: ${(prop) => prop.theme.textColor};
+  }
 `;
 
 const Text = styled.div`
@@ -50,14 +57,15 @@ const Box = styled.div`
 
 function App() {
   return (
-    <Father>
+    <Wrapper>
       <Box>
         <span>@ ~ rotation ~ @</span>
       </Box>
       <Box>
         <Text>ss</Text>
       </Box>
-    </Father>
+      <h1>hi</h1>
+    </Wrapper>
   );
 }
 
