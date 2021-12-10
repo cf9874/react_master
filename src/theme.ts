@@ -5,7 +5,7 @@ export const lightTheme: DefaultTheme = {
   textColor: "#111",
   btnColor: "tomato",
 };
-export const darkTheme: DefaultTheme = {
+export const theme: DefaultTheme = {
   bgColor: "#111",
   textColor: "whitesmoke",
   btnColor: "teal",
