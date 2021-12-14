@@ -1,11 +1,11 @@
 import { useParams } from "react-router";
 
-interface Params {
+interface CoinParams {
   coinID: string;
 }
 
 function Coin() {
-  const { coinID } = useParams() as Params;
+  const { coinID } = useParams() as CoinParams;
   console.log(coinID);
   return <h1>Coin : {coinID}</h1>;
 }
