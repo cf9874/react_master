@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { useParams, useLocation } from "react-router";
-import { Routes, Route } from "react-router-dom";
+import { useParams, useLocation, useMatch } from "react-router";
+import { Routes, Route, Link } from "react-router-dom";
 import styled from "styled-components";
 
 import Chart from "./Chart";
@@ -28,16 +28,6 @@ const Loader = styled.span`
   display: block;
 `;
 
-interface CoinParams {
-  coinID: string;
-}
-
-interface RouteState {
-  state: {
-    name: string;
-  };
-}
-
 const Overview = styled.div`
   display: flex;
   justify-content: space-between;
@@ -60,6 +50,37 @@ const Description = styled.p`
   margin: 20px 0px;
 `;
 
+const Tabs = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin: 25px 0px;
+  gap: 10px;
+`;
+const Tab = styled.span<{ isActive: boolean }>`
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 400;
+  background-color: black;
+  padding: 10px 0px;
+  border-radius: 10px;
+  color: ${(prop) => {
+    return prop.isActive ? prop.theme.accentColor : prop.theme.textColor;
+  }};
+  a {
+    display: block;
+  }
+`;
+
+interface CoinParams {
+  coinID: string;
+}
+
+interface RouteState {
+  state: {
+    name: string;
+  };
+}
 interface InfoData {
   id: string;
   name: string;
@@ -121,23 +142,21 @@ function Coin() {
   const { state } = useLocation() as RouteState;
   const [info, setInfo] = useState<InfoData>();
   const [priceInfo, setPriceInfo] = useState<PriceData>();
+  const priceMatch = useMatch("/:coinId/price");
+  const chartMatch = useMatch("/:coinId/chart");
 
   useEffect(() => {
     (async () => {
       const infoData = await fetch(`https://api.coinpaprika.com/v1/coins/${coinID}`);
       const infoJson = await infoData.json();
-      console.log(infoJson);
-
       const priceData = await fetch(`https://api.coinpaprika.com/v1/tickers/${coinID}`);
       const priceJson = await priceData.json();
-      console.log(priceJson);
 
       setInfo(infoJson);
       setPriceInfo(priceJson);
       setLoading(!loading);
     })();
   }, [coinID]);
-
   return (
     <Container>
       <Header>
@@ -172,9 +191,17 @@ function Coin() {
               <span>{priceInfo?.max_supply}</span>
             </OverviewItem>
           </Overview>
+          <Tabs>
+            <Tab isActive={chartMatch !== null}>
+              <Link to={`/${coinID}/chart`}>Chart</Link>
+            </Tab>
+            <Tab isActive={priceMatch !== null}>
+              <Link to={`/${coinID}/price`}>price</Link>
+            </Tab>
+          </Tabs>
           <Routes>
-            <Route path={`/${coinID}/chart`} element={<Chart />}></Route>
-            <Route path={`/${coinID}/price`} element={<Price />}></Route>
+            <Route path="chart" element={<Chart />} />
+            <Route path="price" element={<Price />} />
           </Routes>
         </>
       )}
