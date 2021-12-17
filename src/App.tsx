@@ -2,7 +2,9 @@ import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { lightTheme, darkTheme } from "./theme";
-import { useState } from "react";
+
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atom";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Readex+Pro&display=swap');
@@ -63,16 +65,13 @@ color : inherit;
 }`;
 
 function App() {
-  const [isDark, setIsDark] = useState(false);
-  const modeToggle = () => {
-    setIsDark(!isDark);
-  };
+  const isDark = useRecoilValue(isDarkAtom);
+
   return (
     <div>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
-
-        <Router modeToggle={modeToggle} />
+        <Router />
         <ReactQueryDevtools initialIsOpen={true} />
       </ThemeProvider>
     </div>
