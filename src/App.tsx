@@ -1,6 +1,8 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { lightTheme, darkTheme } from "./theme";
+import { useState } from "react";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Readex+Pro&display=swap');
@@ -61,11 +63,18 @@ color : inherit;
 }`;
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+  const modeToggle = () => {
+    setIsDark(!isDark);
+  };
   return (
     <div>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyle />
+
+        <Router modeToggle={modeToggle} />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </div>
   );
 }

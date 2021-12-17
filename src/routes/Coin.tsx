@@ -142,8 +142,12 @@ function Coin() {
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(["info", coinID], () => fetchInfoData(coinID));
-  const { isLoading: priceLoading, data: priceData } = useQuery<PriceData>(["price", coinID], () =>
-    fetchPriceData(coinID)
+  const { isLoading: priceLoading, data: priceData } = useQuery<PriceData>(
+    ["price", coinID],
+    () => fetchPriceData(coinID),
+    {
+      refetchInterval: 5000,
+    }
   );
 
   const loading = infoLoading || priceLoading;
@@ -167,8 +171,8 @@ function Coin() {
               <span>${infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>Open Source:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>Price:</span>
+              <span>${priceData?.quotes.USD.price.toFixed(3)}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>

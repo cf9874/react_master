@@ -16,7 +16,7 @@ const Header = styled.header`
 `;
 const CoinList = styled.ul``;
 const Coin = styled.li`
-  background-color: white;
+  background-color: ${(prop) => prop.theme.textColor};
   color: ${(prop) => prop.theme.bgColor};
 
   margin-bottom: 10px;
@@ -59,14 +59,18 @@ interface CoinInterface {
   is_active: boolean;
   type: string;
 }
+interface ICoinsProps {
+  modeToggle: () => void;
+}
 
-function Coins() {
+function Coins({ modeToggle }: ICoinsProps) {
   const { isLoading, data } = useQuery<CoinInterface[]>("allCoins", fetchCoins);
 
   return (
     <Container>
       <Header>
         <Title>코인</Title>
+        <button onClick={modeToggle}>mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading...</Loader>
